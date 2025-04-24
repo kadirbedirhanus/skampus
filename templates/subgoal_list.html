@@ -1,0 +1,167 @@
+{% load static %}
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ goal.name }} - Alt Hedefler</title>
+    <link rel="stylesheet" href="{% static 'css/subgoal_list.css' %}">
+</head>
+<body>
+
+<header class="header">
+    <div class="header-content">
+        <h1>{{ goal.name }} - Alt Hedefler</h1>
+        <p class="goal-description">{{ goal.description }}</p>
+
+
+        {% if total_score %}
+            <div class="total-max-score-box">
+                <strong>Maksimum Puan:</strong> {{ total_max_score|floatformat:0 }}p
+            </div>
+        {% endif %} <a href="{% url 'home' %}" class="btn btn-back">Ana Sayfaya Dön</a>
+        {% if total_score %}
+            <div class="total-score-box">
+                <strong>Toplam Puanınız:</strong> {{ total_score|floatformat:0 }}p
+            </div>
+        {% endif %}
+    </div>
+</header>
+
+<main class="main">
+    {% if subgoals %}
+        <ul class="subgoal-list">
+            {% for subgoal in subgoals %}
+                <li class="subgoal-item" id="subgoal-{{ subgoal.id }}">
+
+                    <h2 class="subgoal-name">{{ subgoal.name }}</h2>
+                    {% if subgoal.description %}
+
+                        <p class="subgoal-description">{{ subgoal.description }}p</p>
+
+                    {% endif %}
+
+                    {% if user_scores and user_scores|get_item:subgoal.id != 0 %}
+                        <p class="subgoal-score">
+                            <strong>Bu alt hedeften aldığınız puan:</strong>
+                            {{ user_scores|get_item:subgoal.id|floatformat:0 }}p
+                        </p>
+                    {% endif %}
+
+                    <form method="post" action="{% url 'save_subgoal_rating' subgoal.id %}"
+                          enctype="multipart/form-data" class="rating-form">
+                        {% csrf_token %}
+                        <div class="options">
+                            {% if subgoal.is_numeric %}
+                                <label for="rating">Puanınızı girin:</label>
+                                <input type="number" name="rating" id="rating" min="0" required class="numeric-input">
+                            {% else %}
+                                {% for option in subgoal.options.all %}
+                                    <label class="option-label">
+                                        <input type="radio" name="rating" value="{{ option.value }}"
+                                                {% if user_selections|get_item:subgoal.id == option %}
+                                               checked {% endif %} class="radio-input">
+                                        <span class="radio-custom"></span>
+                                        {{ option.name }}
+                                    </label>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        {% if pdf_files|get_item:subgoal.id %}
+                            <div class="existing-pdf">
+                                <p><strong>Yüklenmiş PDF:</strong>
+                                    <a href="{{ pdf_files|get_item:subgoal.id }}" target="_blank">Görüntüle</a>
+                                </p>
+                            </div>
+                        {% endif %}
+                        <div class="pdf_upload">
+                            <label for="pdf_upload_{{ subgoal.id }}">PDF Yükle:</label>
+                            <input type="file" name="pdf_upload" id="pdf_upload_{{ subgoal.id }}"
+                                   accept="application/pdf" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-save">Kaydet</button>
+                    </form>
+
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="no-subgoal">Bu hedefe ait alt hedef bulunamadı.</p>
+    {% endif %}
+</main>
+
+{% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
+<script>
+    // Form gönderilmeden önce subgoal id’sini kaydet
+    document.querySelectorAll('.rating-form').forEach(form => {
+        form.addEventListener('submit', () => {
+            const subgoalId = form.closest('.subgoal-item')?.id;
+            if (subgoalId) {
+                localStorage.setItem('scrollToSubgoal', subgoalId);
+            }
+        });
+    });
+
+    // Sayfa yüklendiğinde ilgili subgoal’a scroll et
+    document.addEventListener("DOMContentLoaded", function () {
+        const targetId = localStorage.getItem('scrollToSubgoal');
+        if (!targetId) return;
+
+        const scrollToTarget = () => {
+            const target = document.getElementById(targetId);
+            if (!target) return;
+
+            const offset = 130;  // header yüksekliği
+
+            const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+
+            window.scrollTo({
+                top: top,
+                behavior: "smooth"
+            });
+
+            localStorage.removeItem('scrollToSubgoal');
+        };
+
+        let attempts = 0;
+        const interval = setInterval(() => {
+            attempts++;
+            const target = document.getElementById(targetId);
+            if (target || attempts > 10) {
+                clearInterval(interval);
+                scrollToTarget();
+            }
+        }, 150);
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+        const messagesContainer = document.querySelector('.messages');
+
+        // Mesaj varsa görünür yap
+        if (messagesContainer) {
+            messagesContainer.style.display = 'block'; // Mesaj kutusunu görünür yap
+            messagesContainer.style.opacity = 1; // Opaklık ayarla
+
+            // 5 saniye sonra mesaj kutusunu kaybetmesini sağla
+            setTimeout(function () {
+                messagesContainer.style.opacity = 0; // Opaklığı sıfırla (görünmez yap)
+
+                // Geçiş sonrası mesaj kutusunu tamamen gizle
+                setTimeout(function () {
+                    messagesContainer.style.display = 'none'; // Mesaj kutusunu tamamen gizle
+                }, 200); // Geçiş süresi kadar bekle
+            }, 2000); // 5 saniye sonra kaybolmasını sağla
+        }
+    });
+</script>
+
+</body>
+</html>

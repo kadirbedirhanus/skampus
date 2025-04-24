@@ -1,0 +1,81 @@
+{% load static %}
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ana Sayfa</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+<header>
+    <div class="header-container">
+        <div class="user-info">
+            <p class="name">{{ user.first_name }} {{ user.last_name }}</p>
+            <p class="university">{{ user.university }}</p>
+        </div>
+        <div class="logout-btn">
+            {% if user.is_authenticated %}
+                <a href="?download_pdf=true" class="export-pdf-btn">PDF Raporu İndir</a>
+            {% endif %}
+            <a href="{% url 'logout' %}" class="logout">Çıkış Yap</a>
+        </div>
+    </div>
+</header>
+
+<div class="main-container">
+    <div class="goals-container">
+        <h2>Hedefler</h2>
+
+        <div class="goals-list">
+            {% for goal in goals %}
+                <div class="goal-item">
+                    <a href="{% url 'subgoal_list' goal.id %}" class="goal-link">
+                        <h3 class="goal-name"> {{ goal.name }}</h3>
+                        <p class="goal-description">{{ goal.description|truncatewords:10 }}</p>
+                    </a>
+                    <div class="subgoal-stats">
+                        {% with goal_stats|dict_key:goal.id as goal_data %}
+                            <p><strong>Alt Hedef:</strong> {{ goal_data.total_questions }}</p>
+                            <p><strong>Cevaplanan:</strong> {{ goal_data.answered_questions }}</p>
+                            <p><strong>Toplam Puan:</strong> {{ goal_data.total_score|floatformat:0 }}p</p>
+                            <p><strong>Beklenen Puan:</strong> {{ goal_data.expected_score|floatformat:0 }}p</p>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" id="progress-bar-{{ goal.id }}"
+                                     style="width: {{ goal_data.completion_percentage }}%"></div>
+                            </div>
+                            <p><strong>İlerleme:</strong> %{{ goal_data.completion_percentage|floatformat:0 }}</p>
+                        {% endwith %}
+                    </div>
+
+
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    // JavaScript kodu ile ilerleme çubuğunu dinamik hale getirme
+    document.addEventListener("DOMContentLoaded", function () {
+        {% for goal in goals %}
+            let progressBar{{ goal.id }} = document.getElementById("progress-bar-{{ goal.id }}");
+            let completionPercentage{{ goal.id }} = {{ goal_stats|dict_key:goal.id|dict_key:'completion_percentage' }};
+
+            let currentWidth = 0;
+            let interval = setInterval(function () {
+                if (currentWidth < completionPercentage{{ goal.id }}) {
+                    currentWidth++;
+                    progressBar{{ goal.id }}.style.width = currentWidth + "%";
+                } else {
+                    clearInterval(interval);
+                }
+            }, 10); // 10ms aralıklarla ilerleme
+        {% endfor %}
+    });
+</script>
+
+</body>
+</html>

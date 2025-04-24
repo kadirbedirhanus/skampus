@@ -1,0 +1,249 @@
+/* Genel Stiller */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0fff0;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 26px;
+    color: #0960AC;
+}
+
+.goal-description {
+    font-size: 16px;
+    color: #0658a9;
+    margin: 5px 0 10px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-back {
+    background-color: #5eb947;
+    margin-top: 10px;
+}
+
+.btn-back:hover {
+    background-color: #218838;
+}
+
+/* Alt Hedefler */
+.main {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.subgoal-list {
+    list-style: none;
+    padding: 0;
+}
+
+.subgoal-item {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.subgoal-name {
+    font-size: 20px;
+    color: #155724;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.subgoal-description {
+    font-size: 14px;
+    color: #555;
+    margin-top: -5px;
+}
+
+.subgoal-score {
+    background-color: #f0f8ff;
+    padding: 8px;
+    margin-top: 6px;
+    border-left: 4px solid #0960AC;
+    font-style: italic;
+}
+
+/* Seçenekler */
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.option-label {
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s;
+}
+
+.radio-input {
+    display: none;
+}
+
+.radio-custom {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #0960AC;
+    position: absolute;
+    left: 0;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+input[type="radio"]:checked + .radio-custom {
+    background-color: #4caf50;
+    border-color: #4caf50;
+}
+
+.option-label .check-icon {
+    display: none;
+    margin-left: 8px;
+    font-size: 18px;
+    color: #28a745;
+}
+
+.radio-input:checked + .radio-custom + .check-icon {
+    display: inline-block;
+}
+
+/* Kaydet Butonu */
+.btn-save {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #5eb947;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.btn-save:hover {
+    background-color: #218838;
+}
+
+.messages {
+    position: fixed;
+    top: 600px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    width: 80%;
+    max-width: 600px;
+    display: none; /* Başlangıçta görünmesin */
+    padding: 10px;
+    border-radius: 5px;
+    transition: opacity 0.5s ease; /* Geçiş efekti */
+}
+
+
+.alert {
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.alert-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.alert-error {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Toplam Puan Kutusu */
+.total-score-box {
+    background-color: #e0ffe0;
+    padding: 10px;
+    margin-top: 15px;
+    font-size: 1.1rem;
+    border-block: 3px solid #4CAF50;
+    display: inline-block;
+}
+.total-max-score-box {
+    background-color: #e0ffe0;
+    padding: 10px;
+    margin-top: 15px;
+    font-size: 1.1rem;
+    border-block: 3px solid #4CAF50;
+    display: inline-block;
+}
+.existing-pdf {
+    margin: 10px 0;
+    padding: 8px;
+    background-color: #f0f8ff;
+    border-left: 4px solid #0960AC;
+    font-size: 0.95em;
+    font-style: italic;
+
+}
+
+/* PDF Yükleme Alanı */
+.pdf_upload {
+    margin: 10px 0;
+}
+
+.pdf_upload label {
+    font-weight: bold;
+    font-size: 15px;
+    color: #0960AC;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.pdf_upload input[type="file"] {
+    background-color: #ffffff;
+    border: 2px dashed #0960AC;
+    padding: 10px;
+    width: 95%;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.pdf_upload input[type="file"]:hover {
+    border-color: #4CAF50;
+    background-color: #f9fff9;
+}
+
+.pdf_upload input[type="file"]:focus {
+    outline: none;
+    border-color: #218838;
+    background-color: #f0fff0;
+}
+
+

@@ -1,0 +1,21 @@
+<!-- goal_detail.html -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ goal.name }} Detayları</title>
+    <link rel="stylesheet" href="{% static 'css/goal_detail.css' %}">
+</head>
+<body>
+
+<header>
+    <h1>{{ goal.name }}</h1>
+    <p>{{ goal.description }}</p> <!-- Hedefin açıklamasını burada gösteriyoruz -->
+    <a href="{% url 'home' %}">Ana Sayfaya Dön</a>
+</header>
+
+</body>
+</html>
