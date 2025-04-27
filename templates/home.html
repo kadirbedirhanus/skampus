@@ -12,11 +12,14 @@
 <body>
 <header>
     <div class="header-container">
+        <div class="logo">
+           <img src="{% static 'images/logo2.png' %}" alt="Logo" class="logo-img">
+        </div>
         <div class="user-info">
             <p class="name">{{ user.first_name }} {{ user.last_name }}</p>
             <p class="university">{{ user.university }}</p>
         </div>
-        <div class="logout-btn">
+        <div class="button-container">
             {% if user.is_authenticated %}
                 <a href="?download_pdf=true" class="export-pdf-btn">PDF Raporu İndir</a>
             {% endif %}
@@ -44,7 +47,7 @@
                             <p><strong>Beklenen Puan:</strong> {{ goal_data.expected_score|floatformat:0 }}p</p>
                             <div class="progress-bar-container">
                                 <div class="progress-bar" id="progress-bar-{{ goal.id }}"
-                                     style="width: {{ goal_data.completion_percentage }}%"></div>
+                                     style="width: {{ goal_data.completion_percentage|floatformat:0 }}%"></div>
                             </div>
                             <p><strong>İlerleme:</strong> %{{ goal_data.completion_percentage|floatformat:0 }}</p>
                         {% endwith %}

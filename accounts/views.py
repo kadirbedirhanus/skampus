@@ -9,7 +9,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, PageBreak
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.pagesizes import letter
+from reportlab.lib.pagesizes import letter, landscape
 from .forms import RegistrationForm, SubGoalUserRatingForm
 from .models import CustomUser, Goal, SubGoal, SubGoalUserRating, Option
 
@@ -106,6 +106,7 @@ def home_view(request):
         'goal_stats': goal_stats
     })
 
+
 def goal_detail(request, goal_id):
     goal = get_object_or_404(Goal, id=goal_id)
     return render(request, 'goal_detail.html', {'goal': goal})
@@ -165,6 +166,7 @@ def subgoal_list_view(request, goal_id):
         'total_score': total_score,
         'total_max_score': total_max_score,  # Tüm soruların toplam puanı
         'pdf_files': pdf_files,
+
     })
 
 
@@ -191,16 +193,6 @@ def save_subgoal_rating(request, subgoal_id):
         return redirect(f"{reverse('subgoal_list', args=[goal_id])}#subgoal-{subgoal.id}")
 
 
-from reportlab.lib.pagesizes import letter
-from reportlab.lib import colors
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, PageBreak
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
-from django.http import HttpResponse
-import os
-
-
 def create_pdf(user, goal_stats):
     # Font kaydını yap
     font_path = os.path.join('static', 'fonts', 'DejaVuSans.ttf')
@@ -215,31 +207,30 @@ def create_pdf(user, goal_stats):
     file_name = f"{user.first_name}_{user.last_name}_report.pdf"
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'inline; filename={file_name}'
-    doc = SimpleDocTemplate(response, pagesize=letter)
+    doc = SimpleDocTemplate(response, pagesize=landscape(letter))  # Yatay sayfa yönü
 
     # Stil ayarları
     styles = getSampleStyleSheet()
-    styles.add(ParagraphStyle(name='Turkish', fontName='DejaVu', fontSize=10))
-    styles.add(ParagraphStyle(name='TurkishHeading', fontName='DejaVu', fontSize=16, spaceAfter=12, leading=20))
+    styles.add(ParagraphStyle(name='Turkish', fontName='DejaVu', fontSize=12, spaceAfter=10))
+    styles.add(
+        ParagraphStyle(name='TurkishHeading', fontName='DejaVu', fontSize=20, spaceAfter=20, alignment=1, leading=24))
+    styles.add(
+        ParagraphStyle(name='UserInfo', fontName='DejaVu', fontSize=14, spaceAfter=15, alignment=0, leftIndent=20))
     styles['Heading1'].fontName = 'DejaVu'
 
     # İçerik listesi
     content = []
 
     # Başlık ekle
-    content.append(Paragraph("Kullanıcı Raporu", styles['Heading1']))
+    content.append(Paragraph("Kullanıcı Raporu", styles['TurkishHeading']))
 
-    # Kullanıcı bilgilerini tabloya ekle
-    user_data = [
-        ["Ad", user.first_name],
-        ["Soyad", user.last_name],
-        ["E-posta", user.email],
-        ["Üniversite", user.university.name if user.university else "Bilinmiyor"]
-    ]
-    user_table = create_table(user_data)
-    content.append(user_table)
-    content.append(PageBreak())  # Kullanıcı tablosu sonrası yeni sayfaya geç
-
+    # Kullanıcı bilgilerini direkt paragraf olarak ekle
+    content.append(Paragraph(f"<b>Ad:</b> {user.first_name}", styles['UserInfo']))
+    content.append(Paragraph(f"<b>Soyad:</b> {user.last_name}", styles['UserInfo']))
+    content.append(Paragraph(f"<b>E-posta:</b> {user.email}", styles['UserInfo']))
+    content.append(Paragraph(f"<b>Üniversite:</b> {user.university.name if user.university else 'Bilinmiyor'}",
+                             styles['UserInfo']))
+    content.append(PageBreak())  # Kullanıcı bilgileri sonrası yeni sayfaya geç
     # Her hedef için rapor oluştur
     for goal_id, stats in goal_stats.items():
         goal = Goal.objects.get(id=goal_id)
@@ -251,7 +242,7 @@ def create_pdf(user, goal_stats):
 
         for subgoal in goal.subgoals.all():
             score = subgoal_scores.get(subgoal.id, 0)
-            goal_data.append([subgoal.name, str(score)])
+            goal_data.append([subgoal.name, str(int(score))])  # Puanı tam sayıya çevir
 
         goal_table = create_table(goal_data)
         content.append(goal_table)
@@ -266,13 +257,20 @@ def create_table(data):
     """
     Tabloyu oluşturmak için yardımcı fonksiyon.
     """
-    table = Table(data, colWidths=[None, 150])  # Sütun genişliklerini ayarla, 2. sütun 150px genişliğinde
+    # Burada sütun genişliklerini esnek yapıyoruz. Bunu ihtiyacınıza göre ayarlayabilirsiniz.
+    # Eğer çok uzun metinler varsa, belirli bir uzunluktan sonra kırılma uygulayabiliriz
+    for row in range(1, len(data)):
+        for col in range(len(data[row])):
+            # Eğer metin 100 karakterden uzunsa, sarmalansın
+            if len(data[row][col]) > 100:
+                data[row][col] = data[row][col][:100] + "..."  # Sadece ilk 100 karakteri al ve sonuna "..." ekle
+    table = Table(data, colWidths=[600, None])  # 2. sütun genişliği ayarlandı, 150px
 
     # Kelime sarmalama (wordwrap) ile metni düzgün şekilde sarmalı
     table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.dimgray),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
         ('FONTNAME', (0, 0), (-1, -1), 'DejaVu'),
         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
         ('TOPPADDING', (0, 0), (-1, -1), 5),  # Üst padding'i ayarlayın
@@ -280,7 +278,11 @@ def create_table(data):
         ('RIGHTPADDING', (0, 0), (-1, -1), 5),  # Sağ padding'i ayarlayın
         ('GRID', (0, 0), (-1, -1), 1, colors.black),
         ('WORDWRAP', (0, 0), (-1, -1), True),  # Kelime sarmalama aktif
-        ('FONTSIZE', (0, 0), (-1, -1), 10),  # Yazı tipi boyutunu küçült
-        ('ALIGN', (1, 1), (1, -1), 'RIGHT'),  # Puanları sağa hizala
+        ('FONTSIZE', (0, 0), (-1, -1), 11),  # Yazı tipi boyutunu küçült
+        ('ALIGN', (1, 1), (1, -1), 'CENTER'),  # Puanları sağa hizala
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),  # Hücrelerin dikey hizalanması
+        ('LINEBEFORE', (0, 0), (0, -1), 0.5, colors.black),  # Sol sınır çizgisi
+        ('LINEAFTER', (1, 0), (1, -1), 0.5, colors.black),  # Sağ sınır çizgisi
     ]))
+
     return table

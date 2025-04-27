@@ -1,29 +1,26 @@
-/* home.css */
+/* General Styles */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f0fff0;
     margin: 0;
     padding: 0;
     color: #333;
 }
 
-/* Header */
+/* Header Styling */
 header {
-    background-color: #4caf50; /* Daha canlı yeşil */
-    color: #ffffff;
-    padding: 20px 30px;
+    background: linear-gradient(135deg, #1f8a70, #66b7c2);
+    color: white;
+    padding: 20px 40px;
+    height: 80px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Daha belirgin gölge */
-    transition: background-color 0.3s ease-in-out; /* Hover efekt */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease-in-out;
 }
 
-/* Header Hover Effect */
-header:hover {
-    background-color: #45a049; /* Hoverda yeşil daha koyulaşır */
-}
-
+/* Header Container */
 .header-container {
     display: flex;
     justify-content: space-between;
@@ -31,12 +28,27 @@ header:hover {
     width: 100%;
 }
 
+/* Logo Styling */
+.logo {
+    flex: 0;
+    margin-left: -25px;
+    margin-top: 0px;
+}
+
+.logo-img {
+    max-width: 100px;
+    height: auto;
+    border-radius: 50%;
+}
+
+/* User Info Styling */
 .user-info {
     display: flex;
+    flex: 1;
     flex-direction: column;
-    justify-content: center;
     align-items: flex-start;
-    color: #ffffff;
+    color: white;
+    margin-top: -2px;
     margin-left: 20px;
 }
 
@@ -45,81 +57,98 @@ header:hover {
 }
 
 .user-info .name {
-    font-size: 1.4rem;
-    font-weight: 400; /* Daha dikkat çekici */
+    font-size: 1.5rem;
+    font-weight: 600;
     color: #fff5e1;
-    text-transform: capitalize; /* İlk harfler büyük */
+    text-transform: capitalize;
 }
 
 .user-info .university {
-    font-size: 1rem;
-    color: #eaeeef; /* Hafif gri */
+    font-size: 1.1rem;
+    color: #c5c7c8;
     font-weight: 500;
-    font-style: italic; /* Üniversite ismini biraz daha şık yapmak için italik */
+    font-style: italic;
     margin-top: 2px;
 }
 
-.logout-btn a {
-    background-color: #e53935; /* Daha sıcak kırmızı */
+/* Button Container */
+.button-container a.export-pdf-btn {
+    background-color: #1f8a70;
     color: white;
-    padding: 10px 20px;
+    padding: 12px 24px;
     text-decoration: none;
-    border-radius: 8px;
+    border-radius: 10px;
     font-weight: bold;
-    transition: background-color 0.3s, transform 0.2s;
-    margin-left: 15px;
+    font-size: 16px;
+    transition: background-color 0.3s;
 }
 
-.logout-btn a:hover {
-    background-color: #c62828; /* Hoverda kırmızı tonunun daha koyusu */
-    transform: scale(1.05); /* Hoverda buton büyür */
+.button-container a.export-pdf-btn:hover {
+    background-color: #45a049;
 }
 
-/* Main content container */
+.button-container a.logout {
+    background-color: #e53935;
+    color: white;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+    margin-left: 20px;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.button-container a.logout:hover {
+    background-color: #c62828;
+    transform: translateY(-3px);
+}
+
+/* Main Content */
 .main-container {
-    padding: 50px;
+    padding: 60px;
     display: flex;
     justify-content: center;
 }
 
+/* Goals Container */
 .goals-container {
     width: 100%;
     max-width: 1200px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 30px;
+    background: linear-gradient(135deg, #1f8a70, #66b7c2);
+    border-radius: 24px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+    padding: 25px;
     transition: transform 0.3s ease-in-out;
 }
 
 .goals-container:hover {
-    transform: translateY(-5px); /* Hoverda kutu yukarıya kayar */
+    transform: translateY(-8px);
 }
 
 .goals-container h2 {
-    font-size: 2rem;
-    color: #0960ac; /* Gri tonları */
-    margin-bottom: 20px;
-    text-align: center; /* Başlık ortalanmış */
-    transition: color 0.3s ease-in-out; /* Başlık rengi hoverda değişir */
+    font-size: 2.5rem;
+    color: #ffffcc;
+    text-align: center;
+    transition: color 0.3s ease;
 }
 
-/* Hover effect on header titles */
 .goals-container h2:hover {
-    color: #45a049; /* Başlık hoverda yeşil olur */
+    color: #fa9729;
 }
 
+/* Grid Layout for Goals */
 .goals-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
 }
 
 .goal-item {
-    background-color: #ecf0f1; /* Açık gri */
-    border-radius: 8px;
-    padding: 20px;
-    transition: transform 0.3s, box-shadow 0.3s;
+    margin-top: 10px;
+    background: linear-gradient(135deg, #d4edda, #c3e6cb);
+    border-radius: 12px;
+    padding: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -127,103 +156,113 @@ header:hover {
 
 .goal-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
-/* Goal Link Hover Effect */
+/* Goal Link Styling */
 .goal-link {
-    color: #0960AC; /* Koyu gri tonları */
+    color: #0960ac;
     text-decoration: none;
-    transition: color 0.3s ease-in-out;
+    transition: color 0.3s ease;
 }
 
 .goal-link:hover {
-    color: #45a049; /* Yeşil hover */
+    color: #45a049;
 }
 
 .goal-link h3 {
-    font-size: 1.5rem;
-    margin: 0 0 10px 0;
+    font-size: 1.6rem;
+    margin: 0 0 12px;
 }
 
 .goal-link p {
-    font-size: 1rem;
-    color: #06355e; /* Soluk gri */
-    margin-bottom: 10px;
+    font-size: 1.1rem;
+    color: #707070;
+    margin-bottom: 12px;
 }
 
-/* Subgoal stats styling */
+/* Subgoal Stats */
 .subgoal-stats {
-    background-color: #f4f4f4;
-    padding: 15px;
-    border: 1px solid #ccc;
-    margin: 10px 0;
-    border-radius: 6px;
-    font-size: 14px;
-    color: #555;
+    background-color: #f0fff0;
+    padding: 18px;
+    border: 1px solid rgba(72, 151, 74, 0.74);
+    margin: 12px 0;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #444;
 }
 
-/* Progres bar container */
+/* Progress Bar */
 .progress-bar-container {
     width: 100%;
-    height: 20px;
-    background-color: #e0e0e0; /* Arka plan rengi */
-    border-radius: 10px;
+    height: 22px;
+    background-color: #e1dddd;
+    border-radius: 15px;
     overflow: hidden;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
-/* Progres bar */
 .progress-bar {
     height: 100%;
-    background-color: #4caf50; /* Yeşil renk */
-    width: 0%; /* Dinamik olarak JS ile değiştirilecek */
-    border-radius: 10px;
-    transition: width 0.05s ease;  /* İlerleme hızlı şekilde dolacak */
+    background-color: #4caf50;
+    width: 0%;
+    border-radius: 15px;
+    transition: width 0.3s ease-in-out;
 }
 
-
-
-
-.goal-description {
-    text-align: center; /* Metni ortalar */
+/* Goal Name and Description */
+.goal-description, .goal-name {
+    text-align: center;
 }
 
 .goal-name {
-    text-align: center; /* Metni ortalar */
-    display: flex;
-    justify-content: center; /* Yatayda ortalar */
-    align-items: center; /* Dikeyde ortalar */
-    height: 50px; /* Yüksekliği sabit tutar */
+    font-size: 1.3rem;
+    font-weight: 600;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .header-container {
-        flex-direction: column;
-        align-items: flex-start;
+    header {
+        height: auto;
+        padding: 20px;
     }
 
-    .logout-btn {
+    .header-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .logo {
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+
+    .user-info {
+        align-items: center;
+        margin-left: 0;
         margin-top: 10px;
+    }
+
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .button-container a {
+        margin: 10px 0;
+        width: 80%;
+        text-align: center;
+    }
+
+    .main-container {
+        padding: 20px;
     }
 
     .goals-list {
         grid-template-columns: 1fr;
     }
 }
-
-.logout-btn a.export-pdf-btn {
-    background-color: #0960ab;
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: background-color 0.3s;
-}
-
-.logout-btn a.export-pdf-btn:hover {
-    background-color: #06355e;
-}
-

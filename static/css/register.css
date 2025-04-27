@@ -1,54 +1,76 @@
+/* Genel stil ayarları */
 body {
-    font-family: Arial, sans-serif;
-    background: #f0fff0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1f8a70, #66b7c2); /* Soft green gradient */
     margin: 0;
     padding: 0;
 }
 
-.container {
-    width: 100%;
-    max-width: 500px;
-    margin: 50px auto;
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.form-box {
     background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.form-box:hover {
+    transform: translateY(-5px);
 }
 
 h2 {
-    text-align: center;
     color: #333;
-    font-size: 24px;
+    font-size: 28px;
+    margin-bottom: 20px;
 }
 
-.form-group {
-    margin-bottom: 15px;
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
 }
 
 label {
-    display: block;
     font-weight: bold;
     color: #333;
+    margin-bottom: 5px;
+    display: block;
 }
 
 input[type="text"], input[type="email"], input[type="password"], select {
     width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: 12px;
+    margin-top: 8px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
     font-size: 16px;
+    background: #f7f7f7;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+    border-color: #5eb947;
 }
 
 button[type="submit"] {
-    background-color: #4CAF50;
+    background-color: #1f8a70; /* Soft green */
     color: white;
-    padding: 10px 20px;
+    padding: 15px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    width: 100%;
     font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s ease;
 }
 
 button[type="submit"]:hover {
@@ -57,35 +79,29 @@ button[type="submit"]:hover {
 
 p {
     text-align: center;
-    margin-top: 15px;
     font-size: 14px;
 }
 
 a {
-    color: #4CAF50;
+    color: #5eb947;
     text-decoration: none;
+    font-weight: bold;
 }
 
 a:hover {
     text-decoration: underline;
 }
 
-.messages {
-    margin-bottom: 15px;
-}
-
+/* Error Message Styling */
 .alert {
+    background-color: #f8d7da;
+    color: #721c24;
     padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-    color: white;
-    text-align: center;
+    border-radius: 8px;
+    margin-bottom: 20px;
 }
 
-.alert-success {
-    background-color: #4CAF50;
-}
-
-.alert-error {
-    background-color: #f44336;
+.alert ul {
+    list-style-type: none;
+    padding-left: 0;
 }

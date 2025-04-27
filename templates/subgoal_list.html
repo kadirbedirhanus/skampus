@@ -16,12 +16,12 @@
         <h1>{{ goal.name }} - Alt Hedefler</h1>
         <p class="goal-description">{{ goal.description }}</p>
 
-
         {% if total_score %}
             <div class="total-max-score-box">
                 <strong>Maksimum Puan:</strong> {{ total_max_score|floatformat:0 }}p
             </div>
-        {% endif %} <a href="{% url 'home' %}" class="btn btn-back">Ana Sayfaya Dön</a>
+        {% endif %}
+        <a href="{% url 'home' %}" class="btn btn-back">Ana Sayfaya Dön</a>
         {% if total_score %}
             <div class="total-score-box">
                 <strong>Toplam Puanınız:</strong> {{ total_score|floatformat:0 }}p

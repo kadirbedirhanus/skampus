@@ -1,9 +1,10 @@
 /* Genel stil ayarları */
 body {
-    font-family: Arial, sans-serif;
-    background: #f0fff0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1f8a70, #66b7c2); /* Soft green gradient */
     margin: 0;
     padding: 0;
+    color: #333;
 }
 
 .login-container {
@@ -14,17 +15,23 @@ body {
 }
 
 .login-box {
-    background: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
     text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.login-box:hover {
+    transform: translateY(-5px);
 }
 
 .login-box h2 {
     margin-bottom: 20px;
-    font-size: 24px;
+    font-size: 2rem;
     color: #333;
 }
 
@@ -35,10 +42,16 @@ body {
 
 .textbox input {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.textbox input:focus {
+    border-color: #1f8a70; /* Green focus effect */
 }
 
 .button-container {
@@ -47,36 +60,39 @@ body {
 
 .btn {
     width: 100%;
-    padding: 10px;
-    background-color: #5eb947;
+    padding: 12px;
+    background-color: #1f8a70; /* Soft green */
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
 .btn:hover {
-    background-color: #45a049;
+    background-color: #45a049; /* Light green on hover */
 }
 
 .register-link {
-    margin-top: 15px;
+    margin-top: 20px;
     font-size: 14px;
 }
 
 .register-link a {
     text-decoration: none;
     color: #4CAF50;
+    font-weight: bold;
 }
 
 .register-link a:hover {
     text-decoration: underline;
 }
+
 .alert {
-    padding: 10px;
+    padding: 12px;
     border-radius: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     font-weight: bold;
 }
 
@@ -88,4 +104,16 @@ body {
 .alert-error, .alert-danger {
     background-color: #f8d7da;
     color: #721c24;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .login-box {
+        padding: 25px;
+        max-width: 100%;
+    }
+
+    .btn {
+        font-size: 14px;
+    }
 }

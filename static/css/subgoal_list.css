@@ -1,6 +1,6 @@
 /* Genel Stiller */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f0fff0;
     margin: 0;
     padding: 20px;
@@ -14,36 +14,68 @@ body {
 }
 
 .header h1 {
-    font-size: 26px;
+    font-size: 28px;
     color: #0960AC;
+    font-weight: 700;
+    letter-spacing: 2px; /* Başlık harfleri arasına boşluk ekler */
+    text-transform: uppercase; /* Başlık tamamen büyük harf olacak */
 }
 
+/* Goal Description */
 .goal-description {
     font-size: 16px;
     color: #0658a9;
     margin: 5px 0 10px;
 }
 
+/* Total Score Box */
+.total-score-box {
+    background: linear-gradient(135deg, #d4edda, #c3e6cb); /* Yumuşak yeşil tonlu geçiş */
+    padding: 12px;
+    margin-top: 15px;
+    font-size: 1.1rem;
+    border: 3px solid #4CAF50;
+    border-radius: 8px;
+    display: inline-block;
+    text-align: center;
+
+}
+
+.total-max-score-box {
+    background: linear-gradient(135deg, #d4edda, #c3e6cb); /* Yumuşak yeşil tonlu geçiş */
+    padding: 12px;
+    margin-top: 15px;
+    font-size: 1.1rem;
+    border: 3px solid #4CAF50;
+    border-radius: 8px;
+    display: inline-block;
+    text-align: center;
+
+}
+
+/* Buttons */
 .btn {
     display: inline-block;
-    padding: 10px 20px;
+    padding: 15px 26px;
     color: white;
     text-decoration: none;
     border-radius: 8px;
     font-weight: bold;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .btn-back {
     background-color: #5eb947;
     margin-top: 10px;
+
 }
 
 .btn-back:hover {
     background-color: #218838;
+    transform: translateY(-2px); /* Hover lift effect */
 }
 
-/* Alt Hedefler */
+/* Main Content Area */
 .main {
     max-width: 700px;
     margin: 0 auto;
@@ -57,16 +89,22 @@ body {
 .subgoal-item {
     background: white;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 12px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow */
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.subgoal-item:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
 }
 
 .subgoal-name {
-    font-size: 20px;
+    font-size: 22px;
     color: #155724;
     font-weight: bold;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 }
 
 .subgoal-description {
@@ -83,14 +121,15 @@ body {
     font-style: italic;
 }
 
-/* Seçenekler */
+/* Options */
 .options {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-top: 10px;
+    gap: 12px;
+    margin-top: 20px;
     padding: 10px;
     border-radius: 8px;
+    background-color: #f0fff0;
 }
 
 .option-label {
@@ -109,8 +148,8 @@ body {
 }
 
 .radio-custom {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     border: 2px solid #0960AC;
     position: absolute;
@@ -126,7 +165,7 @@ input[type="radio"]:checked + .radio-custom {
 .option-label .check-icon {
     display: none;
     margin-left: 8px;
-    font-size: 18px;
+    font-size: 20px;
     color: #28a745;
 }
 
@@ -134,26 +173,28 @@ input[type="radio"]:checked + .radio-custom {
     display: inline-block;
 }
 
-/* Kaydet Butonu */
+/* Save Button */
 .btn-save {
     display: block;
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     background-color: #5eb947;
     color: white;
     border: none;
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 15px;
 }
 
 .btn-save:hover {
     background-color: #218838;
+    transform: translateY(-2px);
 }
 
+/* Messages */
 .messages {
     position: fixed;
     top: 600px;
@@ -164,10 +205,9 @@ input[type="radio"]:checked + .radio-custom {
     max-width: 600px;
     display: none; /* Başlangıçta görünmesin */
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 8px;
     transition: opacity 0.5s ease; /* Geçiş efekti */
 }
-
 
 .alert {
     padding: 12px;
@@ -185,50 +225,34 @@ input[type="radio"]:checked + .radio-custom {
     color: white;
 }
 
-/* Toplam Puan Kutusu */
-.total-score-box {
-    background-color: #e0ffe0;
-    padding: 10px;
-    margin-top: 15px;
-    font-size: 1.1rem;
-    border-block: 3px solid #4CAF50;
-    display: inline-block;
-}
-.total-max-score-box {
-    background-color: #e0ffe0;
-    padding: 10px;
-    margin-top: 15px;
-    font-size: 1.1rem;
-    border-block: 3px solid #4CAF50;
-    display: inline-block;
-}
+
+/* Existing PDF Display */
 .existing-pdf {
-    margin: 10px 0;
-    padding: 8px;
+    margin: 12px 0;
+    padding: 10px;
     background-color: #f0f8ff;
     border-left: 4px solid #0960AC;
     font-size: 0.95em;
     font-style: italic;
-
 }
 
-/* PDF Yükleme Alanı */
+/* PDF Upload Area */
 .pdf_upload {
-    margin: 10px 0;
+    margin: 15px 0;
 }
 
 .pdf_upload label {
     font-weight: bold;
-    font-size: 15px;
+    font-size: 16px;
     color: #0960AC;
     display: block;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
 .pdf_upload input[type="file"] {
     background-color: #ffffff;
     border: 2px dashed #0960AC;
-    padding: 10px;
+    padding: 12px;
     width: 95%;
     border-radius: 8px;
     cursor: pointer;
@@ -245,5 +269,3 @@ input[type="radio"]:checked + .radio-custom {
     border-color: #218838;
     background-color: #f0fff0;
 }
-
-
