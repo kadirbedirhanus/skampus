@@ -76,11 +76,14 @@
                                 </p>
                             </div>
                         {% endif %}
-                        <div class="pdf_upload">
-                            <label for="pdf_upload_{{ subgoal.id }}">PDF Yükle:</label>
-                            <input type="file" name="pdf_upload" id="pdf_upload_{{ subgoal.id }}"
-                                   accept="application/pdf" required>
-                        </div>
+                        {% if subgoal.requires_proof %}
+
+                            <div class="pdf_upload">
+                                <label for="pdf_upload_{{ subgoal.id }}">PDF Yükle:</label>
+                                <input type="file" name="pdf_upload" id="pdf_upload_{{ subgoal.id }}"
+                                       accept="application/pdf" required>
+                            </div>
+                        {% endif %}
 
                         <button type="submit" class="btn btn-save">Kaydet</button>
                     </form>

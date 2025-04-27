@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.utils.safestring import mark_safe
+
 from .models import CustomUser, University, Goal, SubGoal, SubGoalUserRating, Option
 
 
@@ -86,23 +88,42 @@ def reset_ratings(modeladmin, request, queryset):
 
 @admin.register(SubGoalUserRating)
 class SubGoalUserRatingAdmin(admin.ModelAdmin):
-    list_display = ('user_email', 'goal_name', 'subgoal_name', 'total_score','total_max_score','rating', 'updated_at')  # 'goal_name' da eklendi
-    list_filter = ('rating', 'updated_at')
-    search_fields = ('user__email', 'subgoal__name', 'subgoal__goal__name')  # Goal adını arama alanına da ekliyoruz
+    list_display = (
+        'user_email',
+        'user_university',
+        'goal_name',
+        'subgoal_name',
+        'rating',
+        'total_score',
+        'total_max_score',
+        'pdf_link',
+        'updated_at'
+    )
+    list_filter = ('subgoal__goal', 'user__university', 'rating', 'updated_at')
+    search_fields = ('user__email', 'subgoal__name', 'subgoal__goal__name')
     autocomplete_fields = ['user', 'subgoal']
     actions = [reset_ratings]
 
     def user_email(self, obj):
         return obj.user.email
-
     user_email.short_description = 'Kullanıcı E-Posta'
+
+    def user_university(self, obj):
+        return obj.user.university.name if obj.user.university else '-'
+    user_university.short_description = 'Üniversite'
 
     def subgoal_name(self, obj):
         return obj.subgoal.name
-
     subgoal_name.short_description = 'Alt Hedef'
 
     def goal_name(self, obj):
-        return obj.subgoal.goal.name  # SubGoal üzerinden Goal adını alıyoruz
-
+        return obj.subgoal.goal.name
     goal_name.short_description = 'Ana Hedef'
+
+    def pdf_link(self, obj):
+        if obj.pdf_upload:
+            return mark_safe(f"<a href='{obj.pdf_upload.url}' target='_blank'>PDF Görüntüle</a>")
+        return "—"
+
+    pdf_link.allow_tags = True
+    pdf_link.short_description = 'Kanıt PDF'

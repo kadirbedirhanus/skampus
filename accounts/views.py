@@ -39,7 +39,6 @@ def register_view(request):
             form.save()
             messages.success(request, 'Kaydınız başarıyla tamamlandı!')
             return redirect('login')
-        messages.error(request, 'Kaydınızda hata oluştu. Lütfen tekrar deneyin.')
 
     return render(request, 'accounts/register.html', {'form': form})
 

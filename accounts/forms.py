@@ -38,7 +38,6 @@ class SubGoalUserRatingForm(forms.ModelForm):
         subgoal = kwargs.pop('subgoal', None)
         super().__init__(*args, **kwargs)
 
-        # Sayısal giriş gerektiren bir alt hedef ise, seçenekleri değil sayısal alanı göster
         if subgoal and subgoal.is_numeric:
             self.fields['rating'] = forms.IntegerField(
                 label='Puanınızı girin:',
@@ -47,8 +46,19 @@ class SubGoalUserRatingForm(forms.ModelForm):
                 widget=forms.NumberInput(attrs={'class': 'numeric-input'})
             )
         else:
-            # Seçenekler var ise normal radio buttonları göster
             self.fields['rating'] = forms.ChoiceField(
                 widget=forms.RadioSelect,
                 choices=[(option.value, option.name) for option in subgoal.options.all()]
             )
+
+        # Kanıt gerektiren alt hedefler için PDF yükleme alanını ekle
+        if subgoal and subgoal.requires_proof:
+            self.fields['pdf_upload'] = forms.FileField(
+                required=True,
+                label='Kanıt PDF Yükleyin:',
+                validators=[FileExtensionValidator(allowed_extensions=['pdf'])]
+            )
+
+        else:
+            # Eğer PDF gerekmediyse, formda PDF alanını gizleyebiliriz
+            self.fields['pdf_upload'].required = False

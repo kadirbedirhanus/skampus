@@ -50,6 +50,7 @@ class SubGoal(models.Model):
     description = models.TextField(blank=True)
     question_score = models.IntegerField("Soru Puanı", null=True, blank=True)
     is_numeric = models.BooleanField(default=False)  # Sayısal giriş gerektiriyor mu?
+    requires_proof = models.BooleanField(default=False)  # Kanıt gerektirip gerektirmediğini belirleyen alan
 
     class Meta:
         verbose_name = "Alt Hedef"
