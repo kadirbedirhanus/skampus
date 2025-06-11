@@ -73,12 +73,18 @@ class GoalAdmin(admin.ModelAdmin):
 # SubGoal admin
 @admin.register(SubGoal)
 class SubGoalAdmin(admin.ModelAdmin):
-    list_display = ('name', 'goal', 'question_score')
-    list_filter = ('goal', 'is_numeric')
+    list_display = ('name', 'goal', 'question_score', 'requires_proof')  # requires_proof alanını listeye ekliyoruz
+    list_filter = ('goal', 'is_numeric', 'requires_proof')  # requires_proof için filtre ekliyoruz
     search_fields = ('name', 'goal__name')
     autocomplete_fields = ['goal']
     inlines = [OptionInline]  # SubGoal ile ilişkili seçeneklerin görünmesi için inline ekledik
+    actions = ['mark_requires_proof']
 
+    def mark_requires_proof(self, request, queryset):
+        queryset.update(requires_proof=True)
+        self.message_user(request, "Seçilen alt hedeflerin requires_proof değeri True olarak güncellendi.")
+
+    mark_requires_proof.short_description = "Seçilen alt hedeflerin requires_proof değerini True yap"
 
 # Özel admin action
 @admin.action(description='Tüm puanları sıfırla')

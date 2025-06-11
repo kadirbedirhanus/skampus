@@ -94,7 +94,6 @@ header {
     text-decoration: none;
     border-radius: 10px;
     font-weight: bold;
-    margin-left: 20px;
     transition: transform 0.2s ease, background-color 0.3s ease;
 }
 

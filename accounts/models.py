@@ -91,7 +91,7 @@ from django.core.validators import FileExtensionValidator
 
 
 def user_proof_upload_path(instance, filename):
-    return f'proofs/{instance.user.university}/subgoal_{instance.subgoal.id}/{filename}'
+    return f'proofs/{instance.user.university}/AltHedef_{instance.subgoal.goal.name}/{filename}'
 
 
 class SubGoalUserRating(models.Model):

@@ -113,7 +113,7 @@ def goal_detail(request, goal_id):
 
 def subgoal_list_view(request, goal_id):
     goal = get_object_or_404(Goal, id=goal_id)
-    subgoals = goal.subgoals.all()
+    subgoals = goal.subgoals.all().order_by('id')
 
     user_selections = {}
     user_scores = {}
